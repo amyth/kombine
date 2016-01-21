@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import datetime
 import gzip
 import json
@@ -180,3 +182,13 @@ class Kombiner(object):
                 os.remove("%s.offset" % self.input_file)
             except Exception as err:
                 pass
+
+
+
+if __name__ == '__main__':
+    if len(sys.argv) < 2:
+        sys.stdout.write("Please specify the input file path: e.g. "\
+                "python kombine.py /var/log/mail/mail.log\n")
+    else:
+        kombiner = Kombiner(sys.argv[1])
+        kombiner.kombine()
