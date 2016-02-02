@@ -128,9 +128,10 @@ class Kombiner(object):
         """
         Logs to the output file and removes the object from memory
         """
-        json_string = json.dumps(obj.__dict__)
-        with open(self.output_file, "a") as output_file:
-            output_file.write(json_string + "\n")
+        if (obj.get('recipient')) and (obj.get('from_email')):
+            json_string = json.dumps(obj.__dict__)
+            with open(self.output_file, "a") as output_file:
+                output_file.write(json_string + "\n")
         del self.entries[obj.queue_id]
         self.rotate_file()
 
