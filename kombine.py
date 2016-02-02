@@ -36,7 +36,7 @@ class Kombiner(object):
         self.input_file = input_file
         self.output_file = output_file
         self.interval = interval
-        self.identifier = r'\w{3}\s\d{2}\s\d{2}:\d{2}:\d{2}\s\w+\-\w+\s\w+/\w+\[\d+\]:\s\w+'
+        self.identifier = r'\w{3}\s+\d+\s+\d+:\d{2}:\d{2}\s\w+\-\w+\s\w+/\w+\[\d+\]:\s\w+'
         self.queue_regex = r'^\w{3}\s\d{2}\s\d{2}:\d{2}:\d{2}\s\w+\-\w+\s\w+/\w+\[\d+\]:\s(\w+)'
         self.from_regex = r'from=<([\w\d@.-]+)'
         self.to_regex = r'to=<([\w\d@.-]+)'
@@ -128,11 +128,12 @@ class Kombiner(object):
         """
         Logs to the output file and removes the object from memory
         """
-        if (obj.get('recipient')) and (obj.get('from_email')):
+        if (hasattr(obj, 'recipient') and obj.recipient) and \
+                (hasattr(obj,'from_email') and obj.from_email):
             json_string = json.dumps(obj.__dict__)
             with open(self.output_file, "a") as output_file:
                 output_file.write(json_string + "\n")
-            del self.entries[obj.queue_id]
+        del self.entries[obj.queue_id]
         self.rotate_file()
 
     def parse_line(self, obj, line):
