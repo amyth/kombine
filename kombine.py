@@ -132,7 +132,7 @@ class Kombiner(object):
             json_string = json.dumps(obj.__dict__)
             with open(self.output_file, "a") as output_file:
                 output_file.write(json_string + "\n")
-        del self.entries[obj.queue_id]
+            del self.entries[obj.queue_id]
         self.rotate_file()
 
     def parse_line(self, obj, line):
